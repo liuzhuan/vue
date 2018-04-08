@@ -24,7 +24,16 @@ const weexFactoryPlugin = {
   }
 }
 
+/** 创建了很多别名 */
 const aliases = require('./alias')
+
+/**
+ * 自定义路径解析规则
+ * 如果在别名中已有定义，直接使用别名目录作为根路径
+ * 否则，使用当前路径父级目录作为根目录（比如 `dist/vue.runtime.commom.js`）
+ *
+ * @param {string} p 自定义路径形式类似 `web/entry-runtime.js`
+ */
 const resolve = p => {
   const base = p.split('/')[0]
   if (aliases[base]) {
@@ -34,8 +43,14 @@ const resolve = p => {
   }
 }
 
+/**
+ * 存储所有环境的构建参数，其中每个元素都包括
+ * `entry`, `dest`, `format`, `banner`
+ * 有的元素包括 `alias`, `env` 等
+ */
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
+  /** `npm run dev:cjs` */
   'web-runtime-cjs': {
     entry: resolve('web/entry-runtime.js'),
     dest: resolve('dist/vue.runtime.common.js'),
@@ -83,6 +98,7 @@ const builds = {
     banner
   },
   // Runtime+compiler development build (Browser)
+  /** package.json 使用 `npm run dev` 调用如下部分 */
   'web-full-dev': {
     entry: resolve('web/entry-runtime-with-compiler.js'),
     dest: resolve('dist/vue.js'),
@@ -101,6 +117,7 @@ const builds = {
     banner
   },
   // Web compiler (CommonJS).
+  /** `npm run dev:compiler` */
   'web-compiler': {
     entry: resolve('web/entry-compiler.js'),
     dest: resolve('packages/vue-template-compiler/build.js'),
@@ -168,6 +185,7 @@ const builds = {
   }
 }
 
+/** 根据 name 产生相应的配置参数 */
 function genConfig (name) {
   const opts = builds[name]
   const config = {
@@ -202,6 +220,9 @@ function genConfig (name) {
     }))
   }
 
+  /**
+   * 此处定义一个不可枚举的 `_name` 有何用？
+   */
   Object.defineProperty(config, '_name', {
     enumerable: false,
     value: name
@@ -210,6 +231,10 @@ function genConfig (name) {
   return config
 }
 
+/**
+ * 如果定义了 TARGET 环境变量，则使用对应的配置参数；
+ * 否则，输出 `getBuild` 和 `getAllBuilds` 两个函数
+ */
 if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
 } else {
