@@ -5,7 +5,10 @@ const cjs = require('rollup-plugin-commonjs')
 const replace = require('rollup-plugin-replace')
 const node = require('rollup-plugin-node-resolve')
 const flow = require('rollup-plugin-flow-no-whitespace')
+
+/** Vue 的版本号 */
 const version = process.env.VERSION || require('../package.json').version
+/** weex 的版本号 */
 const weexVersion = process.env.WEEX_VERSION || require('../packages/weex-vue-framework/package.json').version
 
 const banner =
@@ -15,6 +18,7 @@ const banner =
   ' * Released under the MIT License.\n' +
   ' */'
 
+/** 这个工厂是作甚的？ */
 const weexFactoryPlugin = {
   intro () {
     return 'module.exports = function weexFactory (exports, document) {'
@@ -190,8 +194,13 @@ function genConfig (name) {
   const opts = builds[name]
   const config = {
     input: opts.entry,
+    /** external 的库不会被打包 */
     external: opts.external,
     plugins: [
+      /**
+       * 把源文件中的 `__WEEX__`, `__WEEX_VERSION__` 和 `__VERSION__`
+       * 替换为实际的数值
+       */
       replace({
         __WEEX__: !!opts.weex,
         __WEEX_VERSION__: weexVersion,
