@@ -1,3 +1,8 @@
+/**
+ * 用于定义 rollup 的构建参数，兼容多个平台版本
+ * 该构建参数主要用于开发阶段。
+ */
+
 const path = require('path')
 const buble = require('rollup-plugin-buble')
 const alias = require('rollup-plugin-alias')
@@ -32,7 +37,7 @@ const weexFactoryPlugin = {
 const aliases = require('./alias')
 
 /**
- * 自定义路径解析规则
+ * 自定义路径解析规则，返回 p 对应的绝对路径
  * 如果在别名中已有定义，直接使用别名目录作为根路径
  * 否则，使用当前路径父级目录作为根目录（比如 `dist/vue.runtime.commom.js`）
  *
@@ -192,10 +197,12 @@ const builds = {
 /** 根据 name 产生相应的配置参数 */
 function genConfig (name) {
   const opts = builds[name]
+  /** 定义输入、外部依赖、插件和输出参数 */
   const config = {
     input: opts.entry,
     /** external 的库不会被打包 */
     external: opts.external,
+    /** 定义各种插件 */
     plugins: [
       /**
        * 把源文件中的 `__WEEX__`, `__WEEX_VERSION__` 和 `__VERSION__`
@@ -206,11 +213,15 @@ function genConfig (name) {
         __WEEX_VERSION__: weexVersion,
         __VERSION__: version
       }),
+      /** 删除 flow 标记 */
       flow(),
+      /** 转译 ES2015 代码 */
       buble(),
+      /** 用于别名替换 */
       alias(Object.assign({}, aliases, opts.alias))
     ].concat(opts.plugins || []),
     output: {
+      /** 定义输出文件的路径、格式、banner 等 */
       file: opts.dest,
       format: opts.format,
       banner: opts.banner,
@@ -223,6 +234,7 @@ function genConfig (name) {
     }
   }
 
+  /** 通常的 `env` 是 'development' 或 'production' */
   if (opts.env) {
     config.plugins.push(replace({
       'process.env.NODE_ENV': JSON.stringify(opts.env)
