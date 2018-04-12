@@ -92,6 +92,11 @@ function getOuterHTML (el: Element): string {
     return el.outerHTML
   } else {
     const container = document.createElement('div')
+    /**
+     * Node.cloneNode([deep])
+     * https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode
+     * 当 `deep = true` 时，深复制节点
+     */
     container.appendChild(el.cloneNode(true))
     return container.innerHTML
   }
