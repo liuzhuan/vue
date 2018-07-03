@@ -1,5 +1,7 @@
 # Vue.js Contributing Guide
 
+> 贡献指南
+
 Hi! I’m really excited that you are interested in contributing to Vue.js. Before submitting your contribution though, please make sure to take a moment and read through the following guidelines.
 
 - [Code of Conduct](https://github.com/vuejs/vue/blob/dev/.github/CODE_OF_CONDUCT.md)
@@ -16,17 +18,25 @@ Hi! I’m really excited that you are interested in contributing to Vue.js. Befo
 
 - The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
 
+> `master` 分支是最新的稳定公开版的快照。所有的开发都应在各自分支上进行。不要向 `master` 分支提出 PR。
+
 - Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
 
 - Work in the `src` folder and **DO NOT** checkin `dist` in the commits.
+
+> 不要提交 `dist` 目录。
 
 - It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.
 
 - Make sure `npm test` passes. (see [development setup](#development-setup))
 
+> 一定要通过 `npm test` 测试
+
 - If adding new feature:
   - Add accompanying test case.
   - Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
+
+> 如果要开发新特性，需要首先提出一个特性 issue，然后绿灯放行后，再开发。
 
 - If fixing a bug:
   - If you are resolving a special issue, add `(fix #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `update entities encoding/decoding (fix #3899)`.
@@ -36,6 +46,10 @@ Hi! I’m really excited that you are interested in contributing to Vue.js. Befo
 ## Development Setup
 
 You will need [Node.js](http://nodejs.org) **version 6+** and [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (needed for running Selenium server during e2e tests).
+
+> 需要 Node.js 和 Java 运行时（用来在端到端测试中运行 Selenium 服务器）
+
+> Selenium: 硒
 
 After cloning the repo, run:
 
@@ -71,9 +85,9 @@ The default test script will do the following: lint with ESLint -> type check wi
 
 - **`scripts`**: contains build-related scripts and configuration files. In most cases you don't need to touch them. However, it would be helpful to familiarize yourself with the following files:
 
-  - `scripts/alias.js`: module import aliases used across all source code and tests.
+  - `scripts/alias.js`: module import aliases used across all source code and tests. 用于导入的别名
 
-  - `scripts/config.js`: contains the build configurations for all files found in `dist/`. Check this file if you want to find out the entry source file for a dist file.
+  - `scripts/config.js`: contains the build configurations for all files found in `dist/`. Check this file if you want to find out the entry source file for a dist file. 包含所有编译选项，可以从中找到入口文件
 
 - **`dist`**: contains built files for distribution. Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
 
