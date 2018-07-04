@@ -17,8 +17,10 @@ const idToTemplate = cached(id => {
 })
 
 const mount = Vue.prototype.$mount
+// Component 的定义在哪里？
 Vue.prototype.$mount = function (
   el?: string | Element,
+  // hydrating 吸水的，在这里是什么作用？
   hydrating?: boolean
 ): Component {
   el = el && query(el)
@@ -34,6 +36,7 @@ Vue.prototype.$mount = function (
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
+    // 想方设法定位到 template 节点
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
@@ -58,12 +61,16 @@ Vue.prototype.$mount = function (
     } else if (el) {
       template = getOuterHTML(el)
     }
+
+    // 如果存在 template，就把它编译为 render 函数
     if (template) {
       /* istanbul ignore if */
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
+        // mark 是什么意思？
         mark('compile')
       }
 
+      // compileToFunctions 在哪里定义的？
       const { render, staticRenderFns } = compileToFunctions(template, {
         shouldDecodeNewlines,
         shouldDecodeNewlinesForHref,

@@ -7,6 +7,8 @@ export * from './class'
 export * from './element'
 
 /**
+ * 查找 el 代表的 Element 元素
+ *
  * Query an element selector if it's not an element already.
  */
 export function query (el: string | Element): Element {

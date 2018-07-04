@@ -11,6 +11,7 @@ export let formatComponentName = (noop: any)
 if (process.env.NODE_ENV !== 'production') {
   const hasConsole = typeof console !== 'undefined'
   const classifyRE = /(?:^|[-_])(\w)/g
+  // 用于将 `foo-bar_baz` 转换为 `FooBarBaz` 形式
   const classify = str => str
     .replace(classifyRE, c => c.toUpperCase())
     .replace(/[-_]/g, '')
