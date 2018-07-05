@@ -17,10 +17,10 @@ const idToTemplate = cached(id => {
 })
 
 const mount = Vue.prototype.$mount
-// Component 的定义在哪里？
+// Component 的定义在哪里？为什么要重新定义 $mount？
 Vue.prototype.$mount = function (
   el?: string | Element,
-  // hydrating 吸水的，在这里是什么作用？
+  // hydrating 为...补水，在这里是什么作用？
   hydrating?: boolean
 ): Component {
   el = el && query(el)
@@ -33,6 +33,7 @@ Vue.prototype.$mount = function (
     return this
   }
 
+  // this.$options 是用户传入的原始选项对象吗？
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
@@ -66,7 +67,7 @@ Vue.prototype.$mount = function (
     if (template) {
       /* istanbul ignore if */
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-        // mark 是什么意思？
+        // mark 和 measure 用来统计浏览器性能
         mark('compile')
       }
 
@@ -109,6 +110,7 @@ function getOuterHTML (el: Element): string {
   }
 }
 
+// compileToFunctions 是怎么实现的？
 Vue.compile = compileToFunctions
 
 export default Vue
