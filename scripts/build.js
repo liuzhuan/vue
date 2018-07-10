@@ -1,9 +1,14 @@
+/**
+ * 当执行 build, build:ssr, build:weex 时执行本文件
+ */
+
 const fs = require('fs')
 const path = require('path')
 const zlib = require('zlib')
 const rollup = require('rollup')
 const terser = require('terser')
 
+// 如果 dist 不存在，则创建 dist
 if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
@@ -11,6 +16,9 @@ if (!fs.existsSync('dist')) {
 let builds = require('./config').getAllBuilds()
 
 // filter builds via command line arg
+// process.argv 是命令行参数的数据，第一个是 node 的绝对路径，
+// 第二个是脚本路径，随后是命令行参数
+// TODO `--` 是否不算命令行参数？
 if (process.argv[2]) {
   const filters = process.argv[2].split(',')
   builds = builds.filter(b => {
@@ -18,6 +26,7 @@ if (process.argv[2]) {
   })
 } else {
   // filter out weex builds by default
+  // TODO: 为什么默认不编译 weex？
   builds = builds.filter(b => {
     return b.output.file.indexOf('weex') === -1
   })

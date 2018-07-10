@@ -12,7 +12,7 @@ import directives from './directives/index'
 import { genStaticKeys } from 'shared/util'
 import { isUnaryTag, canBeLeftOpenTag } from './util'
 
-// CompilerOptions 在哪里定义的？flow 是如何找到的？
+// TODO: CompilerOptions 在哪里定义的？flow 是如何找到的？
 export const baseOptions: CompilerOptions = {
   expectHTML: true,
   modules,
