@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 # https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#type
-# feat: A new feature
-# fix: A bug fix
-# docs: Documentation only changes
-# style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-# refactor: A code change that neither fixes a bug nor adds a feature
-# perf: A code change that improves performance
-# test: Adding missing or correcting existing tests
-# chore: Changes to the build process or auxiliary tools and libraries such as documentation generation
+# feat: A new feature 新特性
+# fix: A bug fix 修复 bug
+# docs: Documentation only changes 只修改文档
+# style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) 代码格式调整
+# refactor: A code change that neither fixes a bug nor adds a feature 重构
+# perf: A code change that improves performance 性能优化
+# test: Adding missing or correcting existing tests 增加缺失的测试用例
+# chore: Changes to the build process or auxiliary tools and libraries such as documentation generation 脚手架调整
 
 # Validate commit log
 commit_regex='^Merge.+|(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|types)(\(.+\))?: .{1,50}'
