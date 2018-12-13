@@ -17,10 +17,8 @@ const idToTemplate = cached(id => {
 })
 
 const mount = Vue.prototype.$mount
-// Component 的定义在哪里？为什么要重新定义 $mount？
 Vue.prototype.$mount = function (
   el?: string | Element,
-  // hydrating 为...补水，在这里是什么作用？
   hydrating?: boolean
 ): Component {
   el = el && query(el)
@@ -33,11 +31,9 @@ Vue.prototype.$mount = function (
     return this
   }
 
-  // this.$options 是用户传入的原始选项对象吗？
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
-    // 想方设法定位到 template 节点
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
@@ -63,15 +59,12 @@ Vue.prototype.$mount = function (
       template = getOuterHTML(el)
     }
 
-    // 如果存在 template，就把它编译为 render 函数
     if (template) {
       /* istanbul ignore if */
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-        // mark 和 measure 用来统计浏览器性能
         mark('compile')
       }
 
-      // compileToFunctions 在哪里定义的？
       const { render, staticRenderFns } = compileToFunctions(template, {
         shouldDecodeNewlines,
         shouldDecodeNewlinesForHref,
@@ -100,17 +93,11 @@ function getOuterHTML (el: Element): string {
     return el.outerHTML
   } else {
     const container = document.createElement('div')
-    /**
-     * Node.cloneNode([deep])
-     * https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode
-     * 当 `deep = true` 时，深复制节点
-     */
     container.appendChild(el.cloneNode(true))
     return container.innerHTML
   }
 }
 
-// compileToFunctions 是怎么实现的？
 Vue.compile = compileToFunctions
 
 export default Vue

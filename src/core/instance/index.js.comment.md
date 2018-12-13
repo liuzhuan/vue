@@ -1,0 +1,1 @@
+定义了 Vue 的构造函数，然后 `this._init(options)` 初始化。
